@@ -1,0 +1,16 @@
+wget https://www.dropbox.com/s/y4cqczg4gucyimu/akiyo_cif.y4m?dl=0
+wget https://www.dropbox.com/s/sasbpxruy16zysk/bus_cif.y4m?dl=0
+wget https://www.dropbox.com/s/xucvexynue6buh6/city_cif.y4m?dl=0
+wget https://www.dropbox.com/s/8z9ufrml1r8knw6/crew_cif.y4m?dl=0
+wget https://www.dropbox.com/s/a81xxkzmhbmlfu9/foreman_cif.y4m?dl=0
+wget https://www.dropbox.com/s/b99ntwljw9n21f1/harbour_cif.y4m?dl=0
+wget https://www.dropbox.com/s/djlg6ffs40ezd2c/ice_cif.y4m?dl=0
+wget https://www.dropbox.com/s/58s31ix9fur1e80/mobile_cif.y4m?dl=0
+mv akiyo_cif.y4m?dl=0 akiyo_cif.y4m
+mv bus_cif.y4m?dl=0 bus_cif.y4m
+mv city_cif.y4m?dl=0 city_cif.y4m
+mv crew_cif.y4m?dl=0 crew_cif.y4m
+mv foreman_cif.y4m?dl=0 foreman_cif.y4m
+mv harbour_cif.y4m?dl=0 harbour_cif.y4m
+mv ice_cif.y4m?dl=0 ice_cif.y4m
+mv mobile_cif.y4m?dl=0 mobile_cif.y4m
