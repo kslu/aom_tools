@@ -11,8 +11,8 @@ import numpy as np
 import re
 from bjontegaard_metric import *
 
-#seqs = ['bus', 'city', 'crew', 'foreman', 'harbour', 'mobile']
-seqs = ['bus', 'city']
+seqs = ['bus', 'city', 'crew', 'foreman', 'harbour', 'mobile']
+#seqs = ['bus', 'city']
 
 def get_rdt(filename):
   with open(filename) as f:
