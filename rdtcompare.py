@@ -17,7 +17,7 @@ seqs = ['bus', 'city', 'crew', 'foreman', 'harbour', 'mobile']
 def get_rdt(filename):
   with open(filename) as f:
     content = f.readlines()
-  num_bitrate = (len(content)-1)/3
+  num_bitrate = (len(content)-1)//3
   bps = np.zeros((num_bitrate))
   bpf = np.zeros((num_bitrate))
   psnr = np.zeros((num_bitrate, 3))
