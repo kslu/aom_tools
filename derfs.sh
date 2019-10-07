@@ -1,5 +1,4 @@
-SEQPATH="/home/kslu/test_sequences/"
-#SEQPATH="/User/kslu/test_sequences/derfs/"
+SEQPATH="${HOME}/test_sequences/derfs/"
 
 DERFS1="${SEQPATH}akiyo_cif.y4m"
 DERFS2="${SEQPATH}bus_cif.y4m"
