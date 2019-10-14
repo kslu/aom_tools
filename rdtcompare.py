@@ -11,7 +11,10 @@ import numpy as np
 import re
 from bjontegaard_metric import *
 
-seqs = ['bus', 'city', 'crew', 'foreman', 'harbour', 'mobile']
+#TODO(kslu) make it automatic
+seqs = ['akiyo', 'bowing', 'bus', 'city', 'crew', 'foreman', 'harbour', 'ice',
+        'mobile', 'news', 'pamphlet', 'paris', 'soccer', 'students', 'waterfall']
+#seqs = ['bus', 'city', 'crew', 'foreman', 'harbour', 'mobile']
 #seqs = ['bus', 'city']
 
 def get_rdt(filename):
