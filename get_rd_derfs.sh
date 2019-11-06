@@ -1,5 +1,7 @@
 name_of_run=$1
 nframes=$2
+method=$3
+extraparams=$4
 
 # for HPC
 #SEQPATH="/home/rcf-proj3/kl5/kengshil/test_sequences/"
@@ -13,5 +15,5 @@ declare -a seqs=("bus" "city" "crew" "foreman" "harbour" "mobile")
 for seq in "${seqs[@]}"
 do
   seq_file=${SEQPATH}${seq}_cif.y4m
-  ./get_rd.sh "${name_of_run}_${seq}" ${seq_file} $nframes $3
+  ./get_rd.sh "${name_of_run}_${seq}" ${seq_file} $nframes $method $extraparams
 done

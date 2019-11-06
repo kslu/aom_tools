@@ -7,6 +7,7 @@
 # $2: input sequence
 # $3: number of frames to encode
 # $4: method (suffix of aomenc/aomdec files)
+# $5: extra parameters
 
 if [ -z "$4" ]; then
   method=""
@@ -40,6 +41,7 @@ declare -a br_array=("100" "300" "600" "1000" "1500" "2100" "2800")
 rdfile=results/rdt_$1.txt
 input=$2
 output="${HOMEDIR}/tmp/output.webm"
+extraparams=$5
 echo $input
 
 if [ -z "$3" ]; then
@@ -52,7 +54,7 @@ echo "Sequence: $input"
 
 for Bitrate in "${br_array[@]}"
 do
-  command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=25 --min-q=0 --max-q=63 --auto-alt-ref=1 --passes=2 --kf-max-dist=150 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --bias-pct=50 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate $Limit"
+  command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=25 --min-q=0 --max-q=63 --auto-alt-ref=1 --passes=2 --kf-max-dist=150 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --bias-pct=50 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate $Limit $extraparams"
   #echo $command
   echo " Target bitrate: $Bitrate"
   $command >results/br${Bitrate}_$1.txt 2>&1 || { exit 1; }
