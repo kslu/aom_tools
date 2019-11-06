@@ -1,3 +1,6 @@
+# for HPC
+#SEQPATH="/home/rcf-proj3/kl5/kengshil/test_sequences/"
+# other
 SEQPATH="${HOME}/test_sequences/derfs/"
 
 DERFS1="${SEQPATH}akiyo_cif.y4m"
