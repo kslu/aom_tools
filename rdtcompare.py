@@ -47,8 +47,8 @@ def main():
   keyword1 = os.path.join(result_path, 'rdt_' + run_name1 + '_')
   keyword2 = os.path.join(result_path, 'rdt_' + run_name2 + '_')
 
-  flist1 = [f for g in seqs for f in glob.glob(keyword1 + g + '.txt')]
-  flist2 = [f for g in seqs for f in glob.glob(keyword2 + g + '.txt')]
+  flist1 = glob.glob(keyword1 + '*.txt')
+  flist2 = glob.glob(keyword2 + '*.txt')
   seqlist1 = [fstr.replace(keyword1, '') for fstr in flist1]
   seqlist2 = [fstr.replace(keyword2, '') for fstr in flist2]
 
