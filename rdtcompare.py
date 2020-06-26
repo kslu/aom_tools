@@ -11,14 +11,6 @@ import numpy as np
 import re
 from bjontegaard_metric import *
 
-#TODO(kslu) make it automatic
-seqs = [
-    'akiyo', 'bowing', 'bus', 'city', 'crew', 'foreman', 'harbour', 'ice',
-    'mobile', 'news', 'pamphlet', 'paris', 'soccer', 'students', 'waterfall'
-]
-#seqs = ['bus', 'city', 'crew', 'foreman', 'harbour', 'mobile']
-#seqs = ['bus', 'city']
-
 
 def get_rdt(filename):
   with open(filename) as f:
@@ -51,14 +43,20 @@ def main():
   run_name1 = sys.argv[2]
   run_name2 = sys.argv[3]
 
-  files1 = [
-      f for g in seqs for f in glob.glob(
-          os.path.join(result_path, 'rdt_' + run_name1 + '_' + g + '.txt'))
-  ]
-  files2 = [
-      f for g in seqs for f in glob.glob(
-          os.path.join(result_path, 'rdt_' + run_name2 + '_' + g + '.txt'))
-  ]
+  # get file names with keywords, and take intersection w.r.t. video sequences
+  keyword1 = os.path.join(result_path, 'rdt_' + run_name1 + '_')
+  keyword2 = os.path.join(result_path, 'rdt_' + run_name2 + '_')
+
+  flist1 = [f for g in seqs for f in glob.glob(keyword1 + g + '.txt')]
+  flist2 = [f for g in seqs for f in glob.glob(keyword2 + g + '.txt')]
+  seqlist1 = [fstr.replace(keyword1, '') for fstr in flist1]
+  seqlist2 = [fstr.replace(keyword2, '') for fstr in flist2]
+
+  seqlist = list(set(seqlist1) & set(seqlist2))
+  seqlist.sort()
+
+  files1 = [keyword1 + seq for seq in seqlist]
+  files2 = [keyword2 + seq for seq in seqlist]
 
   # compute number of bitrate levels
   with open(files1[0]) as f:
@@ -117,7 +115,10 @@ def main():
   enctime_ratio = np.sum(enctime2_all, axis=1) / np.sum(enctime1_all, axis=1)
   enctime_ratio_ovl = np.sum(enctime2_all) / np.sum(enctime1_all)
 
-  print('=== ' + run_name2 + ' vs ' + run_name1 + ' ===')
+  print('=== Comparing ' + run_name2 + ' vs ' + run_name1 + ' ===')
+  print('Test sequences: \n  ', end='')
+  print([seqstr.replace('.txt', '') for seqstr in seqlist])
+
   print('BD rate per sequence: \n  ', end='')
   for k in bdrate:
     print('%2.4f%%  ' % k, end='')
