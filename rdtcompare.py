@@ -115,21 +115,14 @@ def main():
   enctime_ratio = np.sum(enctime2_all, axis=1) / np.sum(enctime1_all, axis=1)
   enctime_ratio_ovl = np.sum(enctime2_all) / np.sum(enctime1_all)
 
-  print('=== Comparing ' + run_name2 + ' vs ' + run_name1 + ' ===')
-  print('Test sequences: \n  ', end='')
-  print([seqstr.replace('.txt', '') for seqstr in seqlist])
-
-  print('BD rate per sequence: \n  ', end='')
-  for k in bdrate:
-    print('%2.4f%%  ' % k, end='')
-  print('\nRuntime per sequence: \n  ', end='')
-  for k in enctime_ratio:
-    print('%2.4f%%  ' % (k * 100), end='')
-
-  print('\nOverall BD rate: ', end='')
-  print('%2.4f%%' % bdrate_ovl)
-  print('Overall encoding time: ', end='')
-  print('%2.2f%%' % (enctime_ratio_ovl * 100))
+  print('====== Comparing ' + run_name2 + ' vs ' + run_name1 + ' ======')
+  print('%-20s %-15s %-15s' % ('Test sequence', 'BD rate', 'Runtime'))
+  print('==============================================')
+  for r in range(num_rdt):
+    print('%-20s' % seqlist[r].replace('.txt', ''), end='')
+    print('{:+2.4f}%'.format(bdrate[r]), end='')
+    print('          {:.2%}'.format(enctime_ratio[r]))
+  print('==============================================')
 
 
 if __name__ == '__main__':
