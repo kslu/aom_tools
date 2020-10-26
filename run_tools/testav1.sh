@@ -11,11 +11,7 @@ fi
 
 extraparams=$5
 
-# for HPC
-#HOMEDIR="/home/rcf-proj3/kl5/kengshil"
-# for Unix
 HOMEDIR=""
-
 VPXENC="${HOMEDIR}/tmp/aomenc_$$"
 VPXDEC="${HOMEDIR}/tmp/aomdec_$$"
 #VPXSO="${HOMEDIR}/tmp/libaom.so.0"
@@ -30,8 +26,7 @@ fi
 input_yuv="${HOMEDIR}/tmp/input_$$.yuv"
 output_yuv="${HOMEDIR}/tmp/output_av1_$$.yuv"
 
-trap 'echo "Exiting..."; rm -f ${VPXENC} ${VPXDEC} ${input_yuv} ${output_yuv}' EXIT
-#trap 'echo "Exiting..."; rm -f ${VPXENC} ${VPXDEC}' EXIT
+trap 'echo "Exiting..."; rm -f ${VPXENC} ${VPXDEC} ${input_yuv} ${output_yuv}; if [ -f "${ENTOPT}" ]; then rm ${ENTOPT}; fi' EXIT
 
 input=$1
 output="${HOMEDIR}/tmp/output.webm"

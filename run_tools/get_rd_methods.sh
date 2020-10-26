@@ -7,8 +7,8 @@
 # $4: number of frames
 # $5, $6, ... pruning methods to compare
 
-VPXENC="/home/kslugcp5151/tmp/aomenc_rdtm"
-VPXDEC="/home/kslugcp5151/tmp/amodec_rdtm"
+VPXENC="/tmp/aomenc_rdtm"
+VPXDEC="/tmp/amodec_rdtm"
 trap 'echo "Exiting..."; rm -f ${VPXENC} ${VPXDEC}' EXIT
 
 rdtmfile=results/rdtm_$1.txt
@@ -27,7 +27,7 @@ shift 4
 while [ $# -gt 0 ]
 do
   prunemethod="_$1"
-	echo "Method = $1"
+  echo "Method = $1"
   cp ./aomenc$prunemethod $VPXENC
   cp ./aomdec$prunemethod $VPXDEC
 
