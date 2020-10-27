@@ -23,6 +23,10 @@ if [ -f tools/aom_entropy_optimizer$method ]; then
   cp tools/aom_entropy_optimizer$method $ENTOPT
 fi
 
+if [ ! -d log ]; then
+  mkdir log
+fi
+
 input_yuv="${HOMEDIR}/tmp/input_$$.yuv"
 output_yuv="${HOMEDIR}/tmp/output_av1_$$.yuv"
 
@@ -46,11 +50,15 @@ else
   Bitrate="$2"
 fi;
 
+TIMESTAMP=$(date +%Y%m%d%H%M)
+LOGFILE="log/$4_${TIMESTAMP}.log"
+echo "$@" > $LOGFILE
+
 command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=25 --min-q=0 --max-q=63 --auto-alt-ref=1 --passes=2 --kf-max-dist=150 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --bias-pct=50 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate $Limit $extraparams"
 
-echo $command
+echo $command | tee -a $LOGFILE
 
-$command || { exit 1; }
+{ $command 2>&1 | tee -a $LOGFILE; } || { exit 1; }
 
 time $VPXDEC --progress --codec=av1 --i420 -o $output_yuv $output
 time $VPXDEC --progress --codec=av1 -o $output_y4m $output
