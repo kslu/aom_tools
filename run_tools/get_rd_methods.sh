@@ -7,8 +7,7 @@
 # $4: number of frames
 # $5, $6, ... pruning methods to compare
 
-VPXENC="/tmp/aomenc_rdtm"
-VPXDEC="/tmp/amodec_rdtm"
+VPXENC="/tmp/aomenc_rdtm_$$"
 trap 'echo "Exiting..."; rm -f ${VPXENC} ${VPXDEC}' EXIT
 
 rdtmfile=results/rdtm_$1.txt
@@ -29,22 +28,21 @@ do
   prunemethod="_$1"
   echo "Method = $1"
   cp ./aomenc$prunemethod $VPXENC
-  cp ./aomdec$prunemethod $VPXDEC
 
-	command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=25 --min-q=0 --max-q=63 --auto-alt-ref=1 --passes=1 --kf-max-dist=150 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --bias-pct=50 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate --limit=$nframe"
-	$command >$tempfile 2>&1 || { exit 1; }
-	ls -al $output >>$tempfile
+  command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=25 --min-q=0 --max-q=63 --auto-alt-ref=1 --passes=1 --kf-max-dist=150 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --bias-pct=50 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate --limit=$nframe"
+  $command >$tempfile 2>&1 || { exit 1; }
+  ls -al $output >>$tempfile
 
   bpf=$(grep -oP '\K[0-9]+b/f' $tempfile)
   psnr=$(grep -oP '\KPSNR[^$]+' $tempfile)
   enctime=$(grep 'user' $tempfile | grep -oP '[^(]+' | grep 'user')
 
-	echo "=== method: $1 ===" >> $rdtmfile
-	echo $bpf >> $rdtmfile
-	echo $psnr >> $rdtmfile
-	echo $enctime >> $rdtmfile
+  echo "=== method: $1 ===" >> $rdtmfile
+  echo $bpf >> $rdtmfile
+  echo $psnr >> $rdtmfile
+  echo $enctime >> $rdtmfile
 
-	shift
+  shift
 done
 
 # collect video w/h information from temp files
