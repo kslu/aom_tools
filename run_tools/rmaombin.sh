@@ -1,5 +1,7 @@
-rm aomenc_$1
-rm aomdec_$1
-if [ -f tools/aom_entropy_optimizer_$1 ]; then
-  rm tools/aom_entropy_optimizer_$1
-fi
+for n in "$@" ; do
+  rm aomenc_$n
+  rm aomdec_$n
+  if [ -f tools/aom_entropy_optimizer_$n ]; then
+    rm tools/aom_entropy_optimizer_$n
+  fi
+done
