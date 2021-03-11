@@ -12,6 +12,8 @@ HARBOUR=$DERFS/harbour_cif.y4m
 ICE=$DERFS/ice_cif.y4m
 MOBILE=$DERFS/mobile_cif.y4m
 
+BPASS=$LOWRES/basketballpass_240p.y4m
+
 BQMALL=$MIDRES/BQMall_832x480_60.y4m
 BDRILL=$MIDRES/BasketballDrill_832x480_50.y4m
 
