@@ -45,17 +45,22 @@ else
   Limit="--limit=$3"
 fi;
 if [ -z "$2" ]; then
-  Bitrate="500"
+  CQLVL="54"
 else
-  Bitrate="$2"
+  CQLVL="$2"
 fi;
 
 TIMESTAMP=$(date +%Y%m%d%H%M)
 LOGFILE="log/$4_${TIMESTAMP}.log"
 echo "$@" > $LOGFILE
 
-command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=19 --min-qp=0 --max-qp=63 --auto-alt-ref=1 --passes=1 --kf-max-dist=160 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate $Limit $extraparams"
-#command="perf stat -e instructions:u $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 --profile=0 --lag-in-frames=19 --min-q=0 --max-q=63 --auto-alt-ref=1 --passes=2 --kf-max-dist=160 --kf-min-dist=0 --drop-frame=0 --static-thresh=0 --minsection-pct=0 --maxsection-pct=2000 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 --frame-parallel=0 --test-decode=warn -v --psnr --target-bitrate=$Bitrate $Limit $extraparams"
+command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 \
+  --profile=0 --lag-in-frames=19 --min-qp=0 --max-qp=63 --auto-alt-ref=1 \
+  --passes=1 --kf-max-dist=160 --kf-min-dist=0 --drop-frame=0 \
+  --static-thresh=0 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 \
+  --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 \
+  --frame-parallel=0 --test-decode=warn -v --psnr --end-usage=q \
+  --cq-level=$CQLVL $Limit $extraparams"
 
 echo $command | tee -a $LOGFILE
 
