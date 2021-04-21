@@ -1,7 +1,7 @@
-DERFS=${HOME}/test_sequences/derfs
-LOWRES=${HOME}/test_sequences/lowres
-MIDRES=${HOME}/test_sequences/midres
-HDRES=${HOME}/test_sequences/hdres
+DERFS=${HOME}/test_sets/derfs
+LOWRES=${HOME}/test_sets/lowres
+MIDRES=${HOME}/test_sets/midres
+HDRES=${HOME}/test_sets/hdres
 
 AKIYO=$DERFS/akiyo_cif.y4m
 BUS=$DERFS/bus_cif.y4m
