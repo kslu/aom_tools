@@ -16,6 +16,13 @@ VPXENC="${HOMEDIR}/tmp/aomenc_$$"
 VPXDEC="${HOMEDIR}/tmp/aomdec_$$"
 #VPXSO="${HOMEDIR}/tmp/libaom.so.0"
 ENTOPT="${HOMEDIR}/tmp/aom_entropy_optimizer_$$"
+PERF="/google/data/ro/projects/perf/perf"
+
+if [ -f $PERF ]; then
+  PERFCMD="$PERF stat -e instructions:u"
+else
+  PERFCMD=""
+fi
 
 cp ./aomenc$method $VPXENC
 cp ./aomdec$method $VPXDEC
@@ -54,21 +61,23 @@ TIMESTAMP=$(date +%Y%m%d%H%M)
 LOGFILE="log/$4_${TIMESTAMP}.log"
 echo "$@" > $LOGFILE
 
-command="time $VPXENC -o $output $input --codec=av1 --cpu-used=0 --threads=0 \
-  --profile=0 --lag-in-frames=19 --min-qp=0 --max-qp=63 --auto-alt-ref=1 \
-  --passes=1 --kf-max-dist=160 --kf-min-dist=0 --drop-frame=0 \
-  --static-thresh=0 --arnr-maxframes=7 --arnr-strength=5 --sharpness=0 \
-  --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 \
+enccmd="$PERFCMD time $VPXENC -o $output $input --codec=av1 --cpu-used=0 \
+  --threads=0 --profile=0 --lag-in-frames=19 --min-qp=0 --max-qp=63 \
+  --auto-alt-ref=1 --passes=1 --kf-max-dist=160 --kf-min-dist=0 \
+  --drop-frame=0 --static-thresh=0 --arnr-maxframes=7 --arnr-strength=5 \
+  --sharpness=0 --undershoot-pct=100 --overshoot-pct=100 --tile-columns=0 \
   --frame-parallel=0 --test-decode=warn -v --psnr --end-usage=q \
   --cq-level=$CQLVL $Limit $extraparams"
 
-echo $command | tee -a $LOGFILE
+echo $enccmd | tee -a $LOGFILE
 
-{ $command 2>&1 | tee -a $LOGFILE; } || { exit 1; }
+{ $enccmd 2>&1 | tee -a $LOGFILE; } || { exit 1; }
 
 #time $VPXDEC --progress --codec=av1 --i420 -o $output_yuv $output
-time $VPXDEC --progress --codec=av1 -o $output_y4m $output
-#perf stat -e instructions:u $VPXDEC --progress --codec=av1 -o $output_y4m $output
+#deccmd="time $VPXDEC --progress --codec=av1 -o $output_y4m $output"
+deccmd="$PERFCMD time $VPXDEC --progress --codec=av1 -o $output_y4m $output"
+
+{ $deccmd 2>&1 | tee -a $LOGFILE; } || { exit 1; }
 
 ls -al $output
 
