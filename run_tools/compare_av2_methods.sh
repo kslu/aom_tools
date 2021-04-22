@@ -25,8 +25,8 @@ tmpdec=results/brtm_dec_$1.txt
 input=$2
 cqlvl=$3
 nframe=$4
-output="/tmp/output.webm"
-dec_output="/tmp/output_dec.y4m"
+output="/tmp/output_$$.webm"
+dec_output="/tmp/output_dec_$$.y4m"
 
 echo "Sequence: $input"
 echo $input >$rdtmfile
@@ -76,4 +76,4 @@ h=$(grep 'g_h' $tmpenc | grep -oP '[0-9]+')
 ex -sc "2i|$w $h" -cx $rdtmfile
 
 # delete temp files
-#rm $tmpenc $tmpdec $output $dec_output
+rm $tmpenc $tmpdec $output $dec_output

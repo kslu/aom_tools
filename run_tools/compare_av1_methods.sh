@@ -25,8 +25,8 @@ tmpdec=results/brtm_dec_$1.txt
 input=$2
 Bitrate=$3
 nframe=$4
-output="/tmp/output.webm"
-dec_output="/tmp/output_dec.y4m"
+output="/tmp/output_$$.webm"
+dec_output="/tmp/output_dec_$$.y4m"
 
 echo "Sequence: $input"
 echo $input >$rdtmfile
